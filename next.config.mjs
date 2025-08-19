@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  images: {
+    domains: ["lh3.googleusercontent.com"], // whitelist googleusercontent
+  },
+}
 
 export default nextConfig;
