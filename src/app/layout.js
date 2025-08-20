@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Echo by SwastikBanerjee",
-  description: "Echo - A Chat WEb App",
+  description: "Echo - A Chat Web App",
 };
 
 export default function RootLayout({ children }) {
