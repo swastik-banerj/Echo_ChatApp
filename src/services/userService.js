@@ -6,3 +6,10 @@ export async function getAllUsers(){
 
         return result;
 }
+
+export async function getUser(id){
+    const result = await httpAxios.get(`/api/users/${id}`)
+        .then(response => response.data);
+
+        return result;
+}

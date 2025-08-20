@@ -1,15 +1,56 @@
 "use client"
+import { signOut } from 'next-auth/react'
 import Image from 'next/image'
-import React from 'react'
+import { useParams } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import { getUser } from '@/services/userService'
 
 const Chat = () => {
+
+  const params = useParams();
+  const { userId } = params;
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const getSingleUser = async () => {
+
+      try {
+
+        const result = await getUser(userId);
+
+        if (result.success) {
+          console.log(user)
+          setUser(result.user)
+        } else {
+          console.log("Error while fetching a user : ", result.message)
+        }
+
+      } catch (error) {
+        console.log("Error while fetching a user : ", error);
+      }
+    }
+
+    if (userId) getSingleUser();
+
+  }, [userId])
+
+
+
+  const logOut = async () => {
+    await signOut({
+      callbackUrl: "/",
+      redirect: true
+    })
+  }
+
   return (
     <div className='md:h-screen flex md:w-full'>
       <div className='md:w-[400px] bg-black border flex items-center'>
 
-          <div className='md:w-full bg-black min-h-24 flex justify-center'>
-              <Image src="/Chat_Logo.JPG" alt="Chat Logo" width={200} height={200} className="rounded-full" />
-          </div>
+        <div className='md:w-full bg-black min-h-24 flex justify-center'>
+          <Image src="/Chat_Logo.JPG" alt="Chat Logo" width={200} height={200} className="rounded-full" />
+        </div>
       </div>
 
       <div className='bg-black md:w-full'>
@@ -21,14 +62,21 @@ const Chat = () => {
             </button>
           </div>
 
-          <div className='flex gap-4 border'>
-            
+          <div className='flex gap-4 border items-center' >
+
             <div>
-               receiver image
+              <Image src={user?.image || "/avatar_image.jpg"} alt='avatar' width={50} height={50}
+                className='rounded-full'
+              ></Image>
             </div>
-            <div>
-              receiver name
+
+            <div className='font-bold' >
+              {user?.username}
             </div>
+          </div>
+
+          <div className=''>
+            <button onClick={logOut}>Sign Out</button>
           </div>
 
         </div>

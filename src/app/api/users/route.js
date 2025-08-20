@@ -7,7 +7,7 @@ export async function GET(){
 
     try {
 
-        connectDB();
+        await connectDB();
 
         users = await User.find();
 

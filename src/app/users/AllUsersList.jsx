@@ -3,13 +3,14 @@
 import { getAllUsers } from '@/services/userService'
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 
 const AllUsersList = () => {
 
-  const {data : session} = useSession();
-
-  const [users, setUsers] = useState([])
+  const { data: session } = useSession();
+  const [users, setUsers] = useState([]);
+  const [currUser, setCurrUser] = useState({});
 
 
   useEffect(() => {
@@ -43,7 +44,7 @@ const AllUsersList = () => {
                 style={{ backgroundImage: "url('/cover_image.jpg')" }}>
 
 
-                <Image src={users[index]?.image || "/avatar_image.jpg"} alt="profile_image" width={100} height={100}
+                <Image src={user?.image || "/avatar_image.jpg"} alt="profile_image" width={100} height={100}
                   className='rounded-full  absolute top-20 left-32 border-2 border-amber-50'
                 />
               </div>
@@ -53,12 +54,14 @@ const AllUsersList = () => {
             <div className="card-body flex flex-col justify-center items-center">
 
               <div>
-                <h1 className="card-title">{users[index]?.username}</h1>
-                <h2 className='mt-2'>{users[index]?.email}</h2>
+                <h1 className="card-title">{user?.username}</h1>
               </div>
 
               <div className="card-actions justify-center">
-                { session && <button className="bg-gray-600 p-2 rounded-full w-2xs text-lg hover:bg-gray-700"></button> }
+                {(session?.user?.id?.toString() !== user?._id?.toString()) &&
+                  <Link href={`/chat/${user._id}`}
+                  
+                    onClick={() => setCurrUser(user)} className="bg-gray-600 p-2 rounded-full w-2xs text-lg hover:bg-gray-700 flex justify-center">Send Message</Link>}
               </div>
 
             </div>
@@ -66,9 +69,9 @@ const AllUsersList = () => {
         ))
       ) : (
         <div className='w-full flex justify-center'>
-           <span className="loading loading-spinner loading-lg"></span>
+          <span className="loading loading-spinner loading-lg"></span>
         </div>
-       
+
       )
 
       }
