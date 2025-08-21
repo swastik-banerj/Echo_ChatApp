@@ -35,14 +35,24 @@ const Chat = () => {
 
   }, [userId])
 
-
-
   const logOut = async () => {
     await signOut({
       callbackUrl: "/",
       redirect: true
     })
   }
+
+  /* const sendMessage = (e) => {
+    e.preventDefault();
+    setMessage('');
+  }; */
+
+  /* useEffect(() => {
+    setChat([...chat, message]);
+  }, []); */
+
+  const [message, setMessage] = useState('');
+  const [chat, setChat] = useState([]);
 
   return (
     <div className='md:h-screen flex md:w-full'>
@@ -82,20 +92,33 @@ const Chat = () => {
         </div>
 
         <div className='md:h-[85%] bg-black border'>
-          chat-content
+          {chat.map((msg, index) => (
+            <div key={index} className="chat chat-end">
+              <div className="chat-bubble"> <span className='text-white'>{msg}</span> </div>
+            </div>
+          ))}
         </div>
 
-        <div className='flex bg-cyan-950 rounded-md m-2' >
-          <textarea name="chat-msg" id="chat"
-            className='w-[95%] h-auto min-h-16 ml-3 outline-none'
-            placeholder='Write message'
-          ></textarea>
+        <div className='bg-cyan-950 rounded-md m-2' >
 
-          <div className='flex justify-center'>
-            <button>
+          <form className='w-full flex gap-5'>
+            
+            <textarea name="chat-msg"
+              className='w-[90%] h-auto min-h-16 ml-3 outline-none overflow-y-scroll'
+              placeholder='Write message'
+              value={message}
+              onChange={(e) => {
+                setMessage(e.target.value)
+              }}
+            ></textarea>
+
+            <button className='ml-7 m-1 p-1'
+              type='submit'
+            >
               <Image className='filter: invert' src={'/send.png'} alt='send-button' width={30} height={30}></Image>
             </button>
-          </div>
+          </form>
+
         </div>
       </div>
     </div>

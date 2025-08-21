@@ -1,7 +1,7 @@
 "use client"
 
 import { getAllUsers } from '@/services/userService'
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
@@ -11,7 +11,6 @@ const AllUsersList = () => {
   const { data: session } = useSession();
   const [users, setUsers] = useState([]);
   const [currUser, setCurrUser] = useState({});
-
 
   useEffect(() => {
 
@@ -31,6 +30,14 @@ const AllUsersList = () => {
     getUsers();
 
   }, [])
+
+  const logOut = async () => {
+    
+        await signOut({
+            callbackUrl: "/",
+            redirect: true
+        })
+      }
 
   return (
     <div className='flex m-10 gap-8'>
@@ -59,9 +66,17 @@ const AllUsersList = () => {
 
               <div className="card-actions justify-center">
                 {(session?.user?.id?.toString() !== user?._id?.toString()) &&
-                  <Link href={`/chat/${user._id}`}
-                  
-                    onClick={() => setCurrUser(user)} className="bg-gray-600 p-2 rounded-full w-2xs text-lg hover:bg-gray-700 flex justify-center">Send Message</Link>}
+                  (<Link href={`/chat/${user._id}`}
+
+                    onClick={() => setCurrUser(user)} className="bg-gray-600 p-2 rounded-full w-2xs text-lg hover:bg-gray-700 flex justify-center">Send Message</Link>)
+                }
+
+                {
+                  (session?.user?.id?.toString() === user?._id?.toString()) &&
+                    <button onClick={logOut}
+                      className='bg-gray-600 rounded-2xl p-2'
+                    >Sign Out</button>
+                }
               </div>
 
             </div>
