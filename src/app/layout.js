@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Echo by SwastikBanerjee",
   description: "Echo - A Chat Web App",
+  icons:{
+    icon: "/Chat_Logo.JPG"
+  }
 };
 
 export default function RootLayout({ children }) {
@@ -24,7 +27,7 @@ export default function RootLayout({ children }) {
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          {children}
+         {children}
         </body>
       </SessionWrapper>
     </html>

@@ -2,8 +2,6 @@
 
 import React, { useEffect, useState } from 'react'
 import Chat from '../Chat';
-import { useParams } from 'next/navigation';
-import { getUser } from '@/services/userService';
 
 const ChatPage = () => {
 

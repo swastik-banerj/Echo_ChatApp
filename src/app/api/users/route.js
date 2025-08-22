@@ -19,7 +19,6 @@ export async function GET(){
         }
         
     } catch (error) {
-        console.log("error while getting users : ", error)
         return NextResponse.json({
             success: false,
             message: "Can't get users"

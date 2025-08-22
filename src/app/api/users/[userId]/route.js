@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(request, {params}){
 
-    const userId = params.userId;
+    const {userId} = await params;
   
     try {
 
